@@ -1,5 +1,5 @@
 import axios from "axios";
-
+import { useStore } from "../store";
 /**
  * This is the API instance that will be used to make requests to the backend.
  * You can configure the base URL and other settings here.
@@ -36,15 +36,14 @@ api.interceptors.request.use((config) => {
    * Extract the token from localStorage.
    * This is where you would typically store the token after logging in.
    */
-  const token = localStorage.getItem("token");
-
+  const token = useStore.getState().access;
   /**
    * If the token exists, add it to the headers of the request.
    * This is useful for authentication.
    * You can also add other headers here if needed.
    */
   if (token) {
-    config.headers["Authorization"] = `Bearer ${token}`;
+    config.headers["authorization"] = `Bearer ${token}`;
   }
 
   /**
