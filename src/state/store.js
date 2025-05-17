@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import { useGreetingsStore } from "./slice/greetings";
 import { useCounterStore } from "./slice/counter";
-import { useAuthStore } from "./routes/auth/index ";
+import { useAuthStore } from "./routes/auth/index.js";
 /**
  * Here is the main store that combines all slices.
  * You can add other slices here as needed.
