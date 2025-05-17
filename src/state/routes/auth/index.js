@@ -1,7 +1,6 @@
-import { create } from "zustand";
 import api from "../../api/index";
 
-export const useAuthStore = create((set) => ({
+export const useAuthStore = (set) => ({
   auth: [],
   access: null,
   refresh_token: null,
@@ -9,17 +8,20 @@ export const useAuthStore = create((set) => ({
   isAuthenticated: false,
 
   login: async (email, password) => {
-    const response = await api.post("/login", email, password);
+    const res = await api.post("/login", {
+      email,
+      password,
+    });
 
     set({
-      auth: response?.data,
-      access: response?.data?.access,
-      refresh_token: response?.data?.refresh_token,
-      status: response?.status,
+      auth: res?.data?.details,
+      access: res?.data?.details?.access,
+      refresh_token: res?.data?.details?.refresh_token,
+      status: res?.data?.status,
       isAuthenticated: true,
     });
 
-    return response?.data;
+    return res?.data?.details;
   },
 
   logout: async () => {
@@ -32,5 +34,7 @@ export const useAuthStore = create((set) => ({
       status: null,
       isAuthenticated: false,
     });
+
+    return null;
   },
-}));
+});
