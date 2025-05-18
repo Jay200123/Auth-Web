@@ -13,9 +13,18 @@ export default function Login() {
     },
     validationSchema: null,
     onSubmit: async (values) => {
-      const data = await login(values.email, values.password);
+      try {
+        const data = await login(values.email, values.password);
 
-      navigate("/");
+        if (data?.status === 200) {
+          alert("Login successful");
+          navigate("/protected");
+        }
+      } catch (err) {
+        console.log(err);
+        alert("Invalid credentials");
+        navigate("/login");
+      }
     },
   });
   return (
