@@ -21,7 +21,7 @@ export const useAuthStore = (set) => ({
       isAuthenticated: true,
     });
 
-    return res?.data?.details;
+    return res?.data;
   },
 
   logout: async () => {
