@@ -4,8 +4,9 @@ import {
   createRoutesFromElements,
   RouterProvider,
 } from "react-router-dom";
+import { ProtectedRoutes } from "./components/index.js";
 import { MainLayout } from "./layouts/index.js";
-import { Home, Login } from "./pages/index.js";
+import { Home, Login, PageOne } from "./pages/index.js";
 
 function App() {
   const Router = createBrowserRouter(
@@ -14,7 +15,15 @@ function App() {
         {/* Insert your routes here  */}
         <Route element={<MainLayout />}>
           <Route index element={<Home />} />
-          <Route path="login" element={<Login/>}/>
+          <Route path="login" element={<Login />} />
+          <Route
+            path="protected"
+            element={
+              <ProtectedRoutes>
+                <PageOne />
+              </ProtectedRoutes>
+            }
+          />
         </Route>
       </Route>
     )
