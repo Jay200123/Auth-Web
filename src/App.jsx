@@ -6,7 +6,7 @@ import {
 } from "react-router-dom";
 import { ProtectedRoutes } from "./components/index.js";
 import { MainLayout } from "./layouts/index.js";
-import { Home, Login, PageOne } from "./pages/index.js";
+import { Home, Login, PageOne, Register } from "./pages/index.js";
 
 function App() {
   const Router = createBrowserRouter(
@@ -16,6 +16,7 @@ function App() {
         <Route element={<MainLayout />}>
           <Route index element={<Home />} />
           <Route path="login" element={<Login />} />
+          <Route path="register" element={<Register />} />
           <Route
             path="protected"
             element={
