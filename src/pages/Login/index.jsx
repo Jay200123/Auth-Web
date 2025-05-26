@@ -1,6 +1,8 @@
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
 import { useStore } from "../../state/store.js";
+import { loginValidationSchema } from "../../validations/index.js";
+import { toast } from "react-toastify";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -11,18 +13,17 @@ export default function Login() {
       email: "",
       password: "",
     },
-    validationSchema: null,
+    validationSchema: loginValidationSchema,
     onSubmit: async (values) => {
       try {
-        const data = await login(values.email, values.password);
+        await login(values.email, values.password);
 
         if (data?.status === 200) {
-          alert("Login successful");
+          toast.success("Logged in successfully");
           navigate("/protected");
         }
       } catch (err) {
-        console.log(err);
-        alert("Invalid credentials");
+        toast.error(err?.response?.data?.message || "Something went wrong");
         navigate("/login");
       }
     },
@@ -50,6 +51,11 @@ export default function Login() {
               placeholder="text"
               className="w-full lg:text-base md:text-sm text-xs lg:p-1.5 md:p-1 p-0.5 rounded-sm border border-gray-400"
             />
+            {formik.touched.email && formik.errors.email && (
+              <div className="text-red-500 text-xs">
+                <p>{formik.errors.email}</p>
+              </div>
+            )}
           </div>
           <div className="flex flex-col gap-2 mt-4">
             <label className="font-medium text-sm lg:text-base">Password</label>
@@ -63,11 +69,18 @@ export default function Login() {
               placeholder="text"
               className="w-full lg:text-base md:text-sm text-xs lg:p-1.5 md:p-1 p-0.5 rounded-sm  border border-gray-400"
             />
+            {formik.touched.password && formik.errors.password && (
+              <div className="text-red-500 text-xs">
+                <p>{formik.errors.password}</p>
+              </div>
+            )}
           </div>
           <div className="gap-2 mt-4">
             <button
               type="submit"
-              className="w-full bg-blue-500 rounded-md lg:text-lg font-medium md:text-base text-sm text-white p-2"
+              className={`w-full bg-blue-500 rounded-md lg:text-lg font-medium md:text-base text-sm text-white p-2 cursor-pointer border border-blue-500 hover:bg-white hover:text-blue-500 transition-all duration-500 ${
+                !formik.isValid ? "opacity-50 cursor-not-allowed" : ""
+              }`}
             >
               Sign In
             </button>
